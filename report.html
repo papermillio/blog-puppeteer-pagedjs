@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Q2 2026 Business Review</title>
+<style>
+  /* ---------- Page geometry ---------- */
+  @page {
+    size: A4;
+    margin: 25mm 20mm 25mm 20mm;
+
+    @top-left {
+      content: string(chapter);
+      font-size: 9px;
+      color: #666;
+    }
+    @top-right {
+      content: "Northwind Trading — Q2 2026";
+      font-size: 9px;
+      color: #666;
+    }
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9px;
+      color: #666;
+    }
+  }
+
+  /* Cover page: full bleed, no headers or footers */
+  @page cover {
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-center { content: none; }
+  }
+
+  /* ---------- Base typography ---------- */
+  html { font-family: Georgia, 'Times New Roman', serif; font-size: 11px; line-height: 1.55; color: #1a1a1a; }
+  h1, h2, h3 { font-family: Helvetica, Arial, sans-serif; line-height: 1.2; }
+  h2 { font-size: 20px; margin: 0 0 12px 0; padding-bottom: 6px; border-bottom: 2px solid #0f4c81; color: #0f4c81; }
+  h3 { font-size: 13px; margin: 18px 0 6px 0; }
+  p  { margin: 0 0 9px 0; text-align: justify; }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    page: cover;
+    height: 100%;
+    background: #0f4c81;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30mm;
+    box-sizing: border-box;
+  }
+  .cover h1 { font-size: 42px; margin: 0 0 8px 0; }
+  .cover .subtitle { font-size: 18px; opacity: 0.85; }
+  .cover .date { margin-top: 40px; font-size: 13px; opacity: 0.7; }
+
+  /* ---------- Structure & breaks ---------- */
+  section.chapter { break-before: page; }
+  section.chapter h2 { string-set: chapter content(text); }
+  h2, h3 { break-after: avoid; }        /* never leave a heading orphaned at page bottom */
+  figure  { break-inside: avoid; margin: 14px 0; }
+  p { orphans: 3; widows: 3; }
+
+  /* ---------- Table of contents ---------- */
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { margin: 6px 0; font-family: Helvetica, Arial, sans-serif; font-size: 12px; }
+  .toc a { text-decoration: none; color: inherit; }
+  .toc a::after {
+    content: target-counter(attr(href url), page);
+    float: right;
+  }
+
+  /* ---------- Tables ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  thead th {
+    background: #0f4c81; color: white; text-align: left;
+    padding: 6px 8px; font-family: Helvetica, Arial, sans-serif;
+  }
+  tbody td { padding: 5px 8px; border-bottom: 1px solid #ddd; }
+  tbody tr:nth-child(even) { background: #f4f7fa; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  figcaption { font-size: 9px; color: #666; margin-top: 4px; font-family: Helvetica, Arial, sans-serif; }
+  .chart-box { width: 100%; }
+  .chart-box img { width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <h1>Q2 2026<br>Business Review</h1>
+  <div class="subtitle">Northwind Trading Ltd</div>
+  <div class="date">Prepared 13 August 2026 · Confidential</div>
+</div>
+
+<!-- ============ TOC ============ -->
+<section class="chapter toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#summary">1 &nbsp; Executive Summary</a></li>
+    <li><a href="#revenue">2 &nbsp; Revenue Performance</a></li>
+    <li><a href="#regions">3 &nbsp; Regional Breakdown</a></li>
+    <li><a href="#outlook">4 &nbsp; Outlook &amp; Risks</a></li>
+  </ol>
+</section>
+
+<!-- ============ 1. SUMMARY ============ -->
+<section class="chapter" id="summary">
+  <h2>1 &nbsp; Executive Summary</h2>
+  <p>Q2 2026 closed with revenue of £4.82m, up 11.4% quarter-on-quarter and 27.9% year-on-year. Gross margin held at 68.2% despite continued input-cost pressure in the European supply chain, and the customer base grew to 1,214 active accounts.</p>
+  <p>Three themes dominated the quarter. First, the self-serve channel continued to compound: it now represents 31% of new bookings, up from 22% in Q1, with materially lower acquisition cost. Second, enterprise expansion revenue exceeded plan for the fourth consecutive quarter, driven principally by seat growth in existing logistics accounts. Third, churn in the SMB cohort ticked up to 3.1% monthly — above our 2.5% threshold — concentrated in accounts acquired through the March promotional pricing.</p>
+  <h3>Key figures</h3>
+  <p>Net revenue retention finished the quarter at 117%, comfortably above the 110% plan. Cash conversion improved to 89% of EBITDA. Headcount grew from 84 to 91, with all seven hires in engineering and customer success. The board-approved hiring plan for H2 remains 12 additional roles, contingent on the SMB churn figure returning below threshold by end of Q3.</p>
+  <p>Management's overall assessment: the business is executing to plan on growth and unit economics, with SMB retention the single metric requiring intervention. A remediation programme is described in section 4.</p>
+</section>
+
+<!-- ============ 2. REVENUE ============ -->
+<section class="chapter" id="revenue">
+  <h2>2 &nbsp; Revenue Performance</h2>
+  <p>Monthly recurring revenue grew consistently through the quarter, ending at £1.68m. The chart below shows the trailing twelve months, with the acceleration from February onwards attributable to the enterprise pricing revision and the launch of usage-based add-ons.</p>
+  <figure class="chart-box">
+    <canvas id="revChart" width="900" height="380"></canvas>
+    <figcaption>Figure 2.1 — Monthly recurring revenue, trailing twelve months (£000s)</figcaption>
+  </figure>
+  <p>Expansion revenue contributed £412k of net new MRR in the quarter against £186k from new logos, continuing the shift toward growth from the installed base. Contraction and churn together cost £147k, of which £98k is attributable to the SMB cohort discussed above.</p>
+  <h3>Channel mix</h3>
+  <p>Direct sales remains the largest channel at 54% of new bookings but is declining as a share as self-serve scales. Partner-sourced revenue was flat quarter-on-quarter at 15%; the partner programme review scheduled for September will determine whether continued investment is justified. Self-serve conversion from trial to paid improved from 8.2% to 9.7% following the onboarding redesign shipped in April.</p>
+</section>
+
+<!-- ============ 3. REGIONS (long table) ============ -->
+<section class="chapter" id="regions">
+  <h2>3 &nbsp; Regional Breakdown</h2>
+  <p>The table below shows revenue by territory and month for the half year to June. Note the strength of DACH and the Nordics against a soft quarter in Southern Europe, where two large renewals slipped into July.</p>
+  <table id="regionTable">
+    <thead>
+      <tr><th>Territory</th><th>Month</th><th class="num">Revenue (£)</th><th class="num">Accounts</th><th class="num">NRR</th></tr>
+    </thead>
+    <tbody><!-- rows injected by script --></tbody>
+  </table>
+</section>
+
+<!-- ============ 4. OUTLOOK ============ -->
+<section class="chapter" id="outlook">
+  <h2>4 &nbsp; Outlook &amp; Risks</h2>
+  <p>Guidance for Q3 is revenue of £5.15–5.30m, assuming SMB churn returns to threshold by September and no material FX movement. The enterprise pipeline entering the quarter is 1.4× the Q2 figure, weighted toward logistics and professional services.</p>
+  <h3>SMB churn remediation</h3>
+  <p>The promotional cohort from March shows a distinct usage signature: accounts that never configured a second workspace churn at four times the rate of those that did. Customer success will run a structured activation campaign against the 240 at-risk accounts through August, with a success gate reviewed at the September board meeting.</p>
+  <h3>Principal risks</h3>
+  <p>Concentration risk remains the most significant item on the register: the top ten accounts represent 34% of MRR. FX exposure to the euro is partially hedged through Q4. The engineering dependency on a single senior platform engineer for the billing system is being addressed through the current hiring round.</p>
+</section>
+
+<script src="node_modules/chart.js/dist/chart.umd.js"></script>
+<script>
+  // ---- Generate the regional table rows (deterministic pseudo-data) ----
+  const territories = ["UK & Ireland", "DACH", "Nordics", "France", "Benelux", "Southern Europe", "North America", "APAC"];
+  const months = ["January", "February", "March", "April", "May", "June"];
+  const tbody = document.querySelector("#regionTable tbody");
+  let seed = 42;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (const t of territories) {
+    for (const m of months) {
+      const rev = Math.round(90000 + rand() * 260000);
+      const acc = Math.round(20 + rand() * 140);
+      const nrr = (104 + rand() * 22).toFixed(1);
+      tbody.insertAdjacentHTML("beforeend",
+        `<tr><td>${t}</td><td>${m}</td><td class="num">${rev.toLocaleString("en-GB")}</td><td class="num">${acc}</td><td class="num">${nrr}%</td></tr>`);
+    }
+  }
+
+  // ---- Render the chart, then freeze it to an <img> ----
+  // Paged.js moves DOM nodes into page containers while it paginates.
+  // A moved <canvas> loses its bitmap (cloned canvases come back blank),
+  // so we draw the chart first, snapshot it to a data-URL <img>, and
+  // swap the canvas out BEFORE the polyfill runs.
+  function renderChartThenFreeze() {
+    return new Promise((resolve) => {
+      const ctx = document.getElementById("revChart");
+      const labels = ["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"];
+      const data = [1180,1205,1231,1264,1290,1322,1349,1401,1462,1528,1601,1680];
+      const chart = new Chart(ctx, {
+        type: "line",
+        data: { labels, datasets: [{
+          label: "MRR (£000s)", data,
+          borderColor: "#0f4c81", backgroundColor: "rgba(15,76,129,0.08)",
+          fill: true, tension: 0.25, pointRadius: 3
+        }]},
+        options: {
+          responsive: false,
+          animation: false,          // essential: no async animation frames
+          devicePixelRatio: 2,       // crisp in print
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: false } }
+        }
+      });
+      const img = new Image();
+      img.onload = () => { ctx.replaceWith(img); resolve(); };
+      img.src = chart.toBase64Image("image/png", 1);
+    });
+  }
+
+  // ---- Hand control to Paged.js only when the document is ready ----
+  window.PagedConfig = {
+    auto: false   // we trigger the polyfill manually from the render script
+  };
+  window.__prepareDocument = renderChartThenFreeze;
+</script>
+</body>
+</html>
